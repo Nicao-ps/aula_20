@@ -4,10 +4,9 @@ import os
 
 try:
     print('Loading Data...')
-    PATH_ARCHIVE = https://www.ispdados.rj.gov.br/Arquivos/BaseDPEvolucaoMensalCisp.csv
+    PATH_ARCHIVE = "https://www.ispdados.rj.gov.br/Arquivos/BaseDPEvolucaoMensalCisp.csv"
 
 except:
-
 
 
 df_estelionatos = pd.read_csv(PATH_ARCHIVE, sep=';', encoding='iso-8859-1')

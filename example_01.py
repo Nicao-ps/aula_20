@@ -1,50 +1,58 @@
 import numpy as np
 import pandas as pd
 
-PATH_ARCHIVE = 
+print('\nLoading Data...\n')
+PATH_ARCHIVE = "https://www.ispdados.rj.gov.br/Arquivos/BaseDPEvolucaoMensalCisp.csv"
 
 # dataframe da serie
-df_roubo_veiculo = pd.read_csv(PATH_ARCHIVE, sep=';', encoding='iso-8859-1')
+df_ocorrencias = pd.read_csv(PATH_ARCHIVE, sep=';', encoding='iso-8859-1')
+df_ocorrencias = df_ocorrencias[['munic', 'roubo_veiculo']]
+df_roubo_veiculo = df_ocorrencias.groupby('munic').sum(['roubo_veiculo']).reset_index()
+print(df_roubo_veiculo)
 
 # array da serie
-array_roubo_veiculo = np.array(df_roubo_veiculo)
+array_roubo_veiculo = np.array(df_roubo_veiculo['roubo_veiculo'])
 
-print('\n'+89*'*')
+print('\n'+89*'-')
 print('\nMedidas de Tendência Central: \n')
 
 # média da serie
-media_roubo_veiculo = np.mean(array_roubo_veiculo)
-print(f'Média: {media_roubo_veiculo}')
+med_roubo_veiculo = np.mean(array_roubo_veiculo)
+print(f'Média: {med_roubo_veiculo:.2f}')
 
 # mediana da serie
-mediana_roubo_veiculo = np.median(array_roubo_veiculo)
-print(f'Mediana: {mediana_roubo_veiculo}')
+median_roubo_veiculo = np.median(array_roubo_veiculo)
+print(f'Mediana: {median_roubo_veiculo:.2f}')
 
 # distância absoluta da serie
-distancia_roubo_veiculo = np.abs((media_roubo_veiculo - mediana_roubo_veiculo) / mediana_roubo_veiculo)  
+distance_roubo_veiculo = np.abs((med_roubo_veiculo - median_roubo_veiculo) / med_roubo_veiculo)  
+print(f'Distância: {distance_roubo_veiculo:.2f}')
 
-print('\n'+89*'*')
 print('\nMedidas de Dispersão: \n')
 
 # máximo da serie
-maximo_roubo_veiculo = np.max(array_roubo_veiculo)
+max_roubo_veiculo = np.max(array_roubo_veiculo)
+print(f'Máximo: {max_roubo_veiculo:.2f}')
 
 # mínimo da serie
-minimo_roubo_veiculo = np.min(array_roubo_veiculo)
+min_roubo_veiculo = np.min(array_roubo_veiculo)
+print(f'Mínimo: {min_roubo_veiculo:.2f}')
 
 # amplitude total da serie
-amplitude_roubo_veiculo = maximo_roubo_veiculo - minimo_roubo_veiculo
+amp_roubo_veiculo = max_roubo_veiculo - min_roubo_veiculo
+print(f'Amplitude: {amp_roubo_veiculo:.2f}')
 
+print('\nMedidas de Posição: \n')
 
 list_qn = []
-qtt_qn = int(input('\nInforme quantos quantis serão utilizados: '))
+qtt_qn = int(input('Informe quantos quantis serão utilizados: '))
 for i in range(qtt_qn):
 	qn = float(input(f'Informe o q{i + 1}: '))
 	list_qn.append(qn)
 print(f'\nOs quantis serão {list_qn}\n')
 
 for i in range(qtt_qn):
-	print(f'q[{i}] = {np.quantile(array_serie, list_qn[i], method="weibull")}')
+	print(f'q{i + 1} = {np.quantile(array_roubo_veiculo, list_qn[i], method="weibull"):.2f}')
 
 # limite superior
 
